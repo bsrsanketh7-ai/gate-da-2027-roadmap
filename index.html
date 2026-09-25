@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A 19-week GATE DA 2027 study plan covering the full official syllabus, with a progress tracker.">
+<title>GATE DA 2027 Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+:root{
+  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#16202E; --muted:#5A6576; --line:#DDE2EA; --line-soft:#EBEEF3;
+  --accent:#2F5BEA; --accent-soft:#E7EDFE; --hl:#FFE27A; --hl-ink:#1B1B12;
+  --good:#1E8E5A; --good-soft:#E3F4EB; --warn:#B45309; --warn-soft:#FDF1E1;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E131A; --surface:#151C26; --ink:#E6EAF0; --muted:#94A1B3; --line:#263141; --line-soft:#1D2633;
+    --accent:#86A2FF; --accent-soft:#1C2742; --hl:#E8C547; --hl-ink:#15130A;
+    --good:#4CC38A; --good-soft:#13291F; --warn:#F0A95A; --warn-soft:#2C2013;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E131A; --surface:#151C26; --ink:#E6EAF0; --muted:#94A1B3; --line:#263141; --line-soft:#1D2633;
+  --accent:#86A2FF; --accent-soft:#1C2742; --hl:#E8C547; --hl-ink:#15130A;
+  --good:#4CC38A; --good-soft:#13291F; --warn:#F0A95A; --warn-soft:#2C2013;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding:0 16px}
+.wrap{max-width:1160px;margin:0 auto;padding-block:32px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+header.top{display:grid;gap:20px;grid-template-columns:minmax(0,1fr) auto;align-items:end;padding-bottom:24px;border-bottom:1px solid var(--line)}
+header.top h1{font-size:clamp(34px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+header.top p{margin:10px 0 0;color:var(--muted);max-width:60ch}
+.count{text-align:right}
+.count .big{font-family:var(--display);font-weight:800;font-size:clamp(40px,7vw,64px);line-height:1;letter-spacing:-.02em}
+.count .big small{font-size:.4em;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:0}
+.alert{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:12px 16px;border-radius:10px;background:var(--warn-soft);color:var(--ink);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent)}
+.alert strong{color:var(--warn)}
+
+/* layout */
+.grid{display:grid;gap:32px;margin-top:28px;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto 1fr;grid-template-areas:"weeks side1" "weeks side2"}
+.weeks{grid-area:weeks;min-width:0}
+.side1{grid-area:side1}
+.side2{grid-area:side2;align-self:start}
+aside{display:flex;flex-direction:column;gap:24px}
+@media (max-width:880px){
+  .grid{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-template-areas:"side1" "weeks" "side2"}
+  header.top{grid-template-columns:minmax(0,1fr)}
+  .count{text-align:left}
+}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 16px}
+.panel h2{font-size:15px;font-weight:700;margin-bottom:12px;letter-spacing:.01em}
+.overall{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.overall .pct{font-family:var(--display);font-weight:800;font-size:40px;line-height:1}
+.bar{height:8px;border-radius:99px;background:var(--line-soft);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.bar.good>i{background:var(--good)}
+.sec-list{display:grid;gap:10px;margin-top:14px}
+.sec{display:grid;grid-template-columns:52px minmax(0,1fr) 52px;gap:10px;align-items:center;font-size:14px}
+.sec .tag{justify-self:start}
+.sec .n{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+.sync{margin-top:14px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.sync.ok .dot{background:var(--good)}
+.sync.warn .dot{background:var(--warn)}
+
+.tag{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.06em;padding:2px 6px;border-radius:4px;background:var(--line-soft);color:var(--muted);white-space:nowrap}
+
+dl.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;margin:0;font-size:14px}
+dl.kv dt{font-family:var(--mono);font-size:12.5px;color:var(--muted);padding-top:2px;white-space:nowrap}
+dl.kv dd{margin:0}
+dl.kv .past{text-decoration:line-through;color:var(--muted)}
+dl.kv .soon{font-weight:700}
+
+table.w{width:100%;border-collapse:collapse;font-size:14px}
+table.w td{padding:6px 0;border-bottom:1px solid var(--line-soft)}
+table.w td:last-child{text-align:right;font-family:var(--mono);font-size:13px;color:var(--muted)}
+table.w tr:last-child td{border-bottom:0}
+.note{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+
+ul.plain{margin:0;padding-left:18px;font-size:14px;display:grid;gap:6px}
+.routine{display:grid;gap:8px;font-size:14px}
+.routine div{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px}
+.routine b{font-family:var(--mono);font-weight:500;font-size:12.5px;color:var(--muted);padding-top:1px}
+
+/* weeks */
+.weeks-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.weeks-head h2{font-size:22px;font-weight:800}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:600 13px/1 var(--body);padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.phase{margin-top:28px}
+.phase:first-of-type{margin-top:0}
+.phase-head{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:12px}
+.phase-head h3{font-size:18px;font-weight:800}
+.phase-head span{color:var(--muted);font-size:14px}
+.week{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.week.current{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.week-top{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line-soft)}
+.wk-no{font-family:var(--display);font-weight:800;font-size:16px}
+.week.current .wk-no{background:var(--hl);color:var(--hl-ink);padding:0 6px;border-radius:3px;box-decoration-break:clone}
+.wk-dates{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.wk-count{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.pill{font:700 11px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:99px;background:var(--accent);color:var(--surface)}
+.pill.done{background:var(--good-soft);color:var(--good)}
+.tasks{list-style:none;margin:0;padding:6px 0}
+.tasks li label{position:relative;display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:start;padding:7px 16px;cursor:pointer}
+.tasks li label:hover{background:var(--line-soft)}
+.tasks input{position:absolute;opacity:0;width:1px;height:1px}
+.box{width:18px;height:18px;border:1.5px solid var(--muted);border-radius:4px;margin-top:3px;display:grid;place-items:center;transition:background .15s,border-color .15s}
+.box svg{width:12px;height:12px;opacity:0}
+input:checked+.box{background:var(--good);border-color:var(--good)}
+input:checked+.box svg{opacity:1}
+input:focus-visible+.box{outline:2px solid var(--accent);outline-offset:2px}
+.txt{font-size:15px}
+input:checked~.txt{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.tasks .tag{margin-top:3px}
+.week.hidden-done{display:none}
+.reset-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:12px}
+.btn.danger{border-color:color-mix(in srgb,var(--warn) 50%,transparent);color:var(--warn)}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>html{color-scheme:light}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">GATE 2027 · Paper code DA · Organised by IIT Madras</div>
+      <h1>GATE DA 2027 Roadmap</h1>
+      <p>A 19-week plan from Saturday 26 September 2026 to the February exams. It covers the full official syllabus and ends with past papers and mocks. Tick topics off as you finish them.</p>
+    </div>
+    <div class="count">
+      <div class="big num" id="daysLeft">134<small>days</small></div>
+      <div class="eyebrow" id="daysLabel">to the first exam day, 6 Feb 2027</div>
+    </div>
+  </header>
+  <div class="alert" id="regAlert"><strong>Register first.</strong> <span id="regText">Regular GATE registration closes on 27 September 2026. With a ₹500 late fee you have until 5 October.</span> <a href="https://gate2027.iitm.ac.in/" target="_blank" rel="noopener">gate2027.iitm.ac.in</a></div>
+
+  <div class="grid">
+    <aside class="side1">
+      <section class="panel" aria-labelledby="progH">
+        <h2 id="progH">Your progress</h2>
+        <div class="overall"><span class="pct num" id="pct">0%</span><span class="mono" style="font-size:13px;color:var(--muted)" id="pctN">0 of 0 tasks</span></div>
+        <div class="bar good" style="margin-top:10px"><i id="pctBar" style="width:0%"></i></div>
+        <div class="sec-list" id="secList"></div>
+        <div class="sync" id="sync"><span class="dot"></span><span id="syncText">Connecting…</span></div>
+      </section>
+
+      <section class="panel" aria-labelledby="datesH">
+        <h2 id="datesH">Key dates</h2>
+        <dl class="kv" id="dates"></dl>
+        <p class="note">Your DA paper's exact day and shift are listed in the admit card. Plan to peak by 6 Feb.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="patH">
+        <h2 id="patH">Paper pattern</h2>
+        <dl class="kv">
+          <dt>Duration</dt><dd>3 hours, computer-based</dd>
+          <dt>Questions</dt><dd>65 for 100 marks</dd>
+          <dt>Aptitude</dt><dd>10 questions, 15 marks</dd>
+          <dt>Core DA</dt><dd>55 questions, 85 marks</dd>
+          <dt>Types</dt><dd>MCQ, MSQ (multiple correct), NAT (numerical)</dd>
+          <dt>Negative</dt><dd>MCQ only: −⅓ on 1-mark, −⅔ on 2-mark. MSQ and NAT have none, so attempt all of them.</dd>
+        </dl>
+      </section>
+
+      <section class="panel" aria-labelledby="tgtH">
+        <h2 id="tgtH">Score targets (General)</h2>
+        <table class="w">
+          <tr><td>Good IIT AI/DS M.Tech</td><td>60+ · AIR &lt;250</td></tr>
+          <tr><td>Newer IITs, top NITs</td><td>50+ · AIR &lt;1,000</td></tr>
+          <tr><td>Qualifying cutoff 2026</td><td>26.4</td></tr>
+        </table>
+        <p class="note">Estimates from 2025–26 trends. Institutes admit by GATE score, so check each one's closing score on COAP.</p>
+      </section>
+    </aside>
+
+    <main class="weeks">
+      <div class="weeks-head">
+        <h2>Week by week</h2>
+        <div class="controls">
+          <button class="btn" id="jumpBtn" type="button">Jump to this week</button>
+          <button class="btn" id="hideBtn" type="button" aria-pressed="false">Hide finished weeks</button>
+        </div>
+      </div>
+      <div id="weeks"></div>
+      <div class="reset-row">
+        <button class="btn danger" id="resetBtn" type="button">Clear all ticks</button>
+        <span id="resetMsg" hidden>This unticks every task. <button class="btn danger" id="resetYes" type="button">Yes, clear</button> <button class="btn" id="resetNo" type="button">Keep</button></span>
+      </div>
+    </main>
+
+    <aside class="side2">
+      <section class="panel" aria-labelledby="wtH">
+        <h2 id="wtH">Where the marks are</h2>
+        <table class="w">
+          <tr><td>Probability, Linear Algebra, Calculus</td><td>~30–35</td></tr>
+          <tr><td>Machine Learning</td><td>~18–22</td></tr>
+          <tr><td>General Aptitude</td><td>15</td></tr>
+          <tr><td>Python, DSA</td><td>~10–14</td></tr>
+          <tr><td>Artificial Intelligence</td><td>~8–12</td></tr>
+          <tr><td>DBMS &amp; Warehousing</td><td>~6–8</td></tr>
+        </table>
+        <p class="note">Approximate marks from the 2024–26 papers. IIT Madras does not publish a per-subject split, so treat these as rough.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="dayH">
+        <h2 id="dayH">A normal study day</h2>
+        <div class="routine">
+          <div><b>2.5 h</b><span>This week's main topic: learn it, then solve problems on it the same day.</span></div>
+          <div><b>1.5 h</b><span>The side track: Python and DSA in weeks 1–7, then practice questions.</span></div>
+          <div><b>30 min</b><span>General Aptitude: 5–10 questions every day.</span></div>
+          <div><b>30 min</b><span>Revise yesterday's notes and update your formula sheet.</span></div>
+          <div><b>Sunday</b><span>Timed test on the week's topics, then redo every wrong answer. Weekends are 7–8 hours.</span></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="resH">
+        <h2 id="resH">Free resources</h2>
+        <ul class="plain">
+          <li>Official DA papers 2024–26 and syllabus: <a href="https://gate2027.iitm.ac.in/" target="_blank" rel="noopener">GATE 2027 site</a></li>
+          <li>Linear algebra: <a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/" target="_blank" rel="noopener">MIT 18.06 (Gilbert Strang)</a> and <a href="https://www.3blue1brown.com/topics/linear-algebra" target="_blank" rel="noopener">3Blue1Brown</a></li>
+          <li>Probability: Harvard Stat 110 (Joe Blitzstein) lectures on YouTube</li>
+          <li>ML intuition: <a href="https://www.youtube.com/@statquest" target="_blank" rel="noopener">StatQuest</a>; depth: NPTEL "Introduction to Machine Learning" (IIT Madras)</li>
+          <li>AI search, Bayes nets, sampling: <a href="https://inst.eecs.berkeley.edu/~cs188/" target="_blank" rel="noopener">Berkeley CS188</a></li>
+          <li>Extra practice: GATE CS past papers on probability, linear algebra, calculus, DSA and DBMS. Those topics are the same in both papers.</li>
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="ruleH">
+        <h2 id="ruleH">Rules that save marks</h2>
+        <ul class="plain">
+          <li>Keep an error log: every wrong question, why you got it wrong, and the fix.</li>
+          <li>Keep a single formula sheet and read it every Sunday.</li>
+          <li>Practise with the GATE virtual calculator, not a phone calculator.</li>
+          <li>For DA, math and ML questions are numeric. Practise getting exact answers under time pressure.</li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <footer>Syllabus follows the official GATE 2027 DA syllabus, which is unchanged from 2026. Dates are from gate2027.iitm.ac.in and can change, so check the official site.</footer>
+</div>
+
+<script>
+(function(){
+  var SECTIONS=[
+    ["PROB","Probability & Stats"],["LA","Linear Algebra"],["CALC","Calculus & Opt."],
+    ["DSA","Python & DSA"],["DB","DBMS & Warehousing"],["ML","Machine Learning"],
+    ["AI","Artificial Intelligence"],["GA","Aptitude"],["TEST","Tests & revision"]
+  ];
+  var PHASES=[
+    {name:"Phase 1 · Math foundations",sub:"Weeks 1–7 · the base for ML and AI, plus Python on the side"},
+    {name:"Phase 2 · Programming & data",sub:"Weeks 8–11 · DSA, DBMS, warehousing"},
+    {name:"Phase 3 · Machine learning & AI",sub:"Weeks 12–16 · the highest-value DA sections"},
+    {name:"Phase 4 · Papers & mocks",sub:"Weeks 17–19, then the exam window"}
+  ];
+  // [phase, label, dates, tasks[[tag,text]]]
+  var WEEKS=[
+    [0,"Week 1","26 Sep – 2 Oct",[["PROB","Counting: permutations and combinations"],["PROB","Probability axioms, sample space, events; independent and mutually exclusive events"],["PROB","Marginal, conditional and joint probability; Bayes theorem"],["DSA","Python basics: types, strings, operators, control flow"],["TEST","Sunday: 25 past GATE questions on probability basics"]]],
+    [0,"Week 2","3 – 9 Oct",[["PROB","Random variables; PMF, PDF and CDF"],["PROB","Mean, median, mode, variance, standard deviation; correlation and covariance"],["PROB","Conditional expectation and variance"],["PROB","Discrete distributions: uniform, Bernoulli, binomial, Poisson"],["DSA","Python lists, tuples, dicts, sets, comprehensions, slicing"],["TEST","Sunday: timed test on random variables"]]],
+    [0,"Week 3","10 – 16 Oct",[["PROB","Continuous distributions: uniform, exponential, normal, standard normal"],["PROB","t-distribution, chi-squared distribution; conditional PDF"],["PROB","Central limit theorem"],["DSA","Python functions, recursion, classes; predict-the-output questions"],["GA","Aptitude: first sectional test (verbal + quant)"],["TEST","Sunday: timed test on distributions"]]],
+    [0,"Week 4","17 – 23 Oct",[["PROB","Confidence intervals; z-test, t-test, chi-squared test"],["LA","Vector spaces, subspaces, linear dependence and independence"],["LA","Basis, dimension, rank and nullity"],["DSA","Stacks and queues, implemented in Python"],["TEST","Full Probability & Statistics test (60 min)"]]],
+    [0,"Week 5","24 – 30 Oct",[["LA","Projection, orthogonal, idempotent and partition matrices"],["LA","Systems of linear equations; Gaussian elimination"],["LA","Determinants and projections"],["DSA","Linked lists: singly, doubly, circular"],["TEST","Sunday: 25 past GATE questions on matrices"]]],
+    [0,"Week 6","31 Oct – 6 Nov",[["LA","Eigenvalues and eigenvectors; diagonalisation"],["LA","Quadratic forms"],["LA","LU decomposition and singular value decomposition (SVD)"],["DSA","Trees: binary trees, BST, traversals"],["GA","Aptitude: sectional test"],["TEST","Full Linear Algebra test (60 min)"]]],
+    [0,"Week 7","7 – 13 Nov",[["CALC","Functions of one variable; limits, continuity, differentiability"],["CALC","Taylor and Maclaurin series"],["CALC","Maxima and minima; single-variable optimisation"],["DSA","Hash tables and collision handling"],["TEST","Mixed math test: Probability + LA + Calculus (90 min)"]]],
+    [1,"Week 8","14 – 20 Nov",[["DSA","Linear and binary search"],["DSA","Selection, bubble and insertion sort; count comparisons and swaps"],["DSA","Divide and conquer: merge sort, quicksort, recurrences"],["TEST","Sunday: past GATE questions on searching and sorting"]]],
+    [1,"Week 9","21 – 27 Nov",[["DSA","Graph theory basics: representations, degree, connectivity"],["DSA","Graph traversals: BFS and DFS"],["DSA","Shortest paths: Dijkstra, Bellman–Ford"],["DB","ER model and relational model"],["GA","Aptitude: sectional test"],["TEST","Full Python + DSA test (60 min)"]]],
+    [1,"Week 10","28 Nov – 4 Dec",[["DB","Relational algebra and tuple calculus"],["DB","SQL: joins, grouping, nested queries"],["DB","Integrity constraints; functional dependencies and normal forms"],["TEST","Sunday: GATE CS past questions on DBMS"],["TEST","Revise: probability and LA formula sheet"]]],
+    [1,"Week 11","5 – 11 Dec",[["DB","File organisation and indexing (B and B+ trees)"],["DB","Data types and transformation: normalisation, discretisation, sampling, compression"],["DB","Data warehouse modelling: multidimensional schemas, concept hierarchies, measures"],["ML","Simple and multiple linear regression; ridge regression"],["TEST","Full DBMS & Warehousing test"]]],
+    [2,"Week 12","12 – 18 Dec",[["ML","Logistic regression"],["ML","k-nearest neighbour and the naive Bayes classifier"],["ML","Linear discriminant analysis (LDA)"],["ML","Support vector machine: margins, kernels"],["GA","Aptitude: sectional test"],["TEST","Sunday: timed test on classifiers"]]],
+    [2,"Week 13","19 – 25 Dec",[["ML","Decision trees: entropy, Gini, information gain"],["ML","Bias–variance trade-off"],["ML","Cross-validation: leave-one-out and k-fold"],["ML","Multi-layer perceptron and feed-forward neural networks"],["TEST","Supervised learning test (60 min)"]]],
+    [2,"Week 14","26 Dec – 1 Jan",[["ML","Clustering: k-means and k-medoid"],["ML","Hierarchical clustering: top-down, bottom-up; single, complete, average linkage"],["ML","Dimensionality reduction: PCA"],["TEST","Full Machine Learning test (90 min)"],["TEST","Revise: DSA and DBMS"]]],
+    [2,"Week 15","2 – 8 Jan",[["AI","Uninformed search: BFS, DFS, uniform-cost, iterative deepening"],["AI","Informed search: greedy best-first, A*, admissible and consistent heuristics"],["AI","Adversarial search: minimax and alpha–beta pruning"],["AI","Propositional and predicate logic"],["GA","Aptitude: full GA section, timed"],["TEST","Sunday: timed test on search and logic"]]],
+    [2,"Week 16","9 – 15 Jan",[["AI","Reasoning under uncertainty: conditional independence, Bayesian networks"],["AI","Exact inference: variable elimination"],["AI","Approximate inference: sampling (rejection, likelihood weighting)"],["TEST","Full AI test (60 min)"],["TEST","Revise: calculus and ML formula sheet"]]],
+    [3,"Week 17","16 – 22 Jan",[["TEST","GATE DA 2024 paper: 3 hours, timed, then full analysis"],["TEST","GATE DA 2025 paper: timed, then full analysis"],["TEST","Fix the two weakest sections from the analysis"]]],
+    [3,"Week 18","23 – 29 Jan",[["TEST","GATE DA 2026 paper: timed, then full analysis"],["TEST","Full mock test 1 + analysis"],["TEST","Full mock test 2 + analysis"],["TEST","Revise the full formula sheet"]]],
+    [3,"Week 19","30 Jan – 5 Feb",[["TEST","Full mock test 3 + analysis"],["TEST","Full mock test 4 + analysis"],["TEST","Error log pass: redo every question you got wrong"],["TEST","Set your sleep and study hours to match your exam shift"]]],
+    [3,"Exam window","6 – 21 Feb",[["TEST","Download the admit card; check your paper date, shift and centre"],["TEST","One mock every 3–4 days until your paper; light revision only"],["TEST","Sit GATE DA 2027"]]]
+  ];
+
+  var START=new Date("2026-09-26T00:00:00+05:30").getTime();
+  var EXAM=new Date("2027-02-06T09:00:00+05:30").getTime();
+  var DAY=86400000;
+  var LS_KEY="gate-da-2027-done", LS_HIDE="gate-da-2027-hide";
+
+  var tasks=[]; // {id,tag,text,week}
+  WEEKS.forEach(function(w,wi){ w[3].forEach(function(t,ti){ tasks.push({id:"w"+(wi+1)+"-"+(ti+1),tag:t[0],text:t[1],week:wi}); }); });
+
+  var state={done:{}};
+  function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  try{var saved=JSON.parse(lsGet(LS_KEY)||"null"); if(saved&&typeof saved==="object") state.done=saved;}catch(e){}
+  var hideDone=lsGet(LS_HIDE)==="1";
+
+  function currentWeek(){
+    var now=Date.now();
+    if(now<START) return 0;
+    return Math.min(WEEKS.length-1,Math.floor((now-START)/(7*DAY)));
+  }
+
+  // ---------- render ----------
+  var weeksEl=document.getElementById("weeks");
+  var checkSvg='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6.3l2.4 2.4 5.2-5.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function build(){
+    weeksEl.textContent="";
+    var cw=currentWeek(), lastPhase=-1, phaseEl=null;
+    WEEKS.forEach(function(w,wi){
+      if(w[0]!==lastPhase){
+        lastPhase=w[0];
+        phaseEl=document.createElement("section"); phaseEl.className="phase";
+        var ph=document.createElement("div"); ph.className="phase-head";
+        var h=document.createElement("h3"); h.textContent=PHASES[w[0]].name;
+        var s=document.createElement("span"); s.textContent=PHASES[w[0]].sub;
+        ph.appendChild(h); ph.appendChild(s); phaseEl.appendChild(ph);
+        weeksEl.appendChild(phaseEl);
+      }
+      var card=document.createElement("article"); card.className="week"+(wi===cw?" current":""); card.id="week-"+(wi+1);
+      var top=document.createElement("div"); top.className="week-top";
+      var no=document.createElement("span"); no.className="wk-no"; no.textContent=w[1];
+      var dt=document.createElement("span"); dt.className="wk-dates"; dt.textContent=w[2];
+      top.appendChild(no); top.appendChild(dt);
+      if(wi===cw){ var p=document.createElement("span"); p.className="pill"; p.textContent=Date.now()<START?"Starts tomorrow":"This week"; top.appendChild(p); }
+      var donePill=document.createElement("span"); donePill.className="pill done"; donePill.textContent="Done"; donePill.hidden=true; top.appendChild(donePill);
+      var cnt=document.createElement("span"); cnt.className="wk-count"; top.appendChild(cnt);
+      card.appendChild(top);
+      var ul=document.createElement("ul"); ul.className="tasks";
+      tasks.filter(function(t){return t.week===wi}).forEach(function(t){
+        var li=document.createElement("li");
+        var lab=document.createElement("label");
+        var inp=document.createElement("input"); inp.type="checkbox"; inp.id="t-"+t.id; inp.dataset.id=t.id;
+        var box=document.createElement("span"); box.className="box"; box.innerHTML=checkSvg;
+        var tx=document.createElement("span"); tx.className="txt"; tx.textContent=t.text;
+        var tg=document.createElement("span"); tg.className="tag"; tg.textContent=t.tag;
+        lab.appendChild(inp); lab.appendChild(box); lab.appendChild(tx); lab.appendChild(tg);
+        li.appendChild(lab); ul.appendChild(li);
+      });
+      card.appendChild(ul);
+      card._cnt=cnt; card._done=donePill;
+      phaseEl.appendChild(card);
+    });
+  }
+
+  function refresh(){
+    var total=tasks.length, done=0, per={};
+    SECTIONS.forEach(function(s){per[s[0]]={d:0,n:0}});
+    tasks.forEach(function(t){
+      var on=!!state.done[t.id]; if(on) done++;
+      per[t.tag].n++; if(on) per[t.tag].d++;
+      var el=document.getElementById("t-"+t.id); if(el) el.checked=on;
+    });
+    var pct=Math.round(done/total*100);
+    document.getElementById("pct").textContent=pct+"%";
+    document.getElementById("pctN").textContent=done+" of "+total+" tasks";
+    document.getElementById("pctBar").style.width=pct+"%";
+    var sl=document.getElementById("secList"); sl.textContent="";
+    SECTIONS.forEach(function(s){
+      var r=per[s[0]], row=document.createElement("div"); row.className="sec"; row.title=s[1];
+      var tg=document.createElement("span"); tg.className="tag"; tg.textContent=s[0];
+      var b=document.createElement("div"); b.className="bar"+(r.d===r.n?" good":""); var i=document.createElement("i"); i.style.width=(r.n?r.d/r.n*100:0)+"%"; b.appendChild(i);
+      var n=document.createElement("span"); n.className="n"; n.textContent=r.d+"/"+r.n;
+      row.appendChild(tg); row.appendChild(b); row.appendChild(n); sl.appendChild(row);
+    });
+    WEEKS.forEach(function(w,wi){
+      var card=document.getElementById("week-"+(wi+1)); if(!card) return;
+      var wt=tasks.filter(function(t){return t.week===wi}), wd=wt.filter(function(t){return state.done[t.id]}).length;
+      card._cnt.textContent=wd+"/"+wt.length;
+      var complete=wd===wt.length;
+      card._done.hidden=!complete;
+      card.classList.toggle("hidden-done",hideDone&&complete);
+    });
+  }
+
+  // ---------- header: countdown, dates, registration ----------
+  function header(){
+    var now=Date.now();
+    var d=Math.max(0,Math.ceil((EXAM-now)/DAY));
+    var big=document.getElementById("daysLeft");
+    big.textContent=d; var sm=document.createElement("small"); sm.textContent=d===1?"day":"days"; big.appendChild(sm);
+    if(now>=EXAM) document.getElementById("daysLabel").textContent="Exam window: 6–21 Feb 2027";
+    var reg=new Date("2026-09-27T23:59:00+05:30").getTime(), late=new Date("2026-10-05T23:59:00+05:30").getTime();
+    var alert=document.getElementById("regAlert"), rt=document.getElementById("regText");
+    if(now>late) alert.hidden=true;
+    else if(now>reg) rt.textContent="Regular registration has closed. You can still register until 5 October with a ₹500 late fee.";
+    var rows=[
+      ["27 Sep 2026","Regular registration closes","2026-09-27T23:59:00+05:30"],
+      ["5 Oct 2026","Last day with ₹500 late fee","2026-10-05T23:59:00+05:30"],
+      ["14–21 Oct","Application correction window","2026-10-21T23:59:00+05:30"],
+      ["6–21 Feb 2027","Exams (weekends, two shifts a day)","2027-02-21T23:59:00+05:30"],
+      ["19 Mar 2027","Results","2027-03-19T23:59:00+05:30"]
+    ];
+    var dl=document.getElementById("dates"); dl.textContent="";
+    var marked=false;
+    rows.forEach(function(r){
+      var end=new Date(r[2]).getTime();
+      var dtEl=document.createElement("dt"); dtEl.textContent=r[0];
+      var dd=document.createElement("dd"); dd.textContent=r[1];
+      if(now>end){dtEl.className="past";dd.className="past";}
+      else if(!marked){dd.className="soon";marked=true;}
+      dl.appendChild(dtEl); dl.appendChild(dd);
+    });
+  }
+
+  // ---------- persistence ----------
+  var docRef=null, writing=false, dirty=false, timer=null, canWrite=true;
+  function setSync(kind,text){ var s=document.getElementById("sync"); s.className="sync "+kind; document.getElementById("syncText").textContent=text; }
+  setSync("","Progress is saved in this browser");
+
+  function scheduleWrite(){
+    lsSet(LS_KEY,JSON.stringify(state.done));
+    if(!docRef||!canWrite) return;
+    dirty=true; clearTimeout(timer); timer=setTimeout(flush,700);
+    setSync("","Saving…");
+  }
+  function flush(){
+    if(!docRef||!dirty) return;
+    if(writing){ clearTimeout(timer); timer=setTimeout(flush,400); return; }
+    writing=true; dirty=false;
+    docRef.set({done:Object.assign({},state.done),updatedAt:new Date().toISOString()}).then(function(){
+      setSync("ok","Saved to your roadmap");
+    }).catch(function(e){
+      if(e&&e.code==="invalid_argument"){ canWrite=false; setSync("warn","Progress is saved in this browser"); }
+      else setSync("warn","Couldn't save online. Ticks are kept in this browser.");
+    }).then(function(){ writing=false; if(dirty) flush(); });
+  }
+
+  weeksEl.addEventListener("change",function(e){
+    var t=e.target; if(!t||!t.dataset||!t.dataset.id) return;
+    if(t.checked) state.done[t.dataset.id]=true; else delete state.done[t.dataset.id];
+    refresh(); scheduleWrite();
+  });
+
+  (function connect(){
+    if(!window.claude||typeof window.claude.use!=="function"){ setSync("","Progress is saved in this browser"); return; }
+    window.claude.use("db").then(function(db){
+      if(!db){ setSync("","Progress is saved in this browser"); return; }
+      docRef=db.doc("progress/main");
+      var first=true;
+      docRef.onSnapshot(function(snap){
+        if(snap.metadata&&snap.metadata.hasPendingWrites) return;
+        if(dirty||writing) return;
+        var data=snap.exists?snap.data():null;
+        if(data&&data.done&&typeof data.done==="object"){
+          state.done=Object.assign({},data.done);
+          lsSet(LS_KEY,JSON.stringify(state.done));
+          refresh();
+          setSync("ok","Saved to your roadmap");
+        } else if(first&&Object.keys(state.done).length){
+          scheduleWrite();
+        } else {
+          setSync("ok","Saved to your roadmap");
+        }
+        first=false;
+      },function(){ docRef=null; setSync("warn","Progress is saved in this browser"); });
+    }).catch(function(){ setSync("","Progress is saved in this browser"); });
+  })();
+
+  // ---------- controls ----------
+  var hideBtn=document.getElementById("hideBtn");
+  function syncHide(){ hideBtn.setAttribute("aria-pressed",hideDone?"true":"false"); }
+  hideBtn.addEventListener("click",function(){ hideDone=!hideDone; lsSet(LS_HIDE,hideDone?"1":"0"); syncHide(); refresh(); });
+  document.getElementById("jumpBtn").addEventListener("click",function(){
+    var el=document.getElementById("week-"+(currentWeek()+1)); if(!el) return;
+    el.classList.remove("hidden-done");
+    el.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
+  });
+  var resetMsg=document.getElementById("resetMsg"), resetBtn=document.getElementById("resetBtn");
+  resetBtn.addEventListener("click",function(){ resetMsg.hidden=false; resetBtn.hidden=true; });
+  document.getElementById("resetNo").addEventListener("click",function(){ resetMsg.hidden=true; resetBtn.hidden=false; });
+  document.getElementById("resetYes").addEventListener("click",function(){
+    state.done={}; refresh(); scheduleWrite(); resetMsg.hidden=true; resetBtn.hidden=false;
+  });
+
+  build(); syncHide(); header(); refresh();
+})();
+</script>
+
+</body>
+</html>
