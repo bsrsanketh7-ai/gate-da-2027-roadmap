@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sign in to your GATE DA 2027 study roadmap and progress tracker.">
+<title>Sign in · GATE DA 2027 Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#16202E; --muted:#5A6576; --line:#DDE2EA; --line-soft:#EBEEF3;
+  --accent:#2F5BEA; --accent-ink:#FFFFFF; --accent-soft:#E7EDFE; --hl:#FFE27A; --hl-ink:#1B1B12;
+  --good:#1E8E5A; --good-soft:#E3F4EB; --bad:#B42318; --bad-soft:#FDECEA; --warn:#B45309; --warn-soft:#FDF1E1;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E131A; --surface:#151C26; --ink:#E6EAF0; --muted:#94A1B3; --line:#263141; --line-soft:#1D2633;
+    --accent:#86A2FF; --accent-ink:#0E131A; --accent-soft:#1C2742; --hl:#E8C547; --hl-ink:#15130A;
+    --good:#4CC38A; --good-soft:#13291F; --bad:#F5867A; --bad-soft:#2E1614; --warn:#F0A95A; --warn-soft:#2C2013;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E131A; --surface:#151C26; --ink:#E6EAF0; --muted:#94A1B3; --line:#263141; --line-soft:#1D2633;
+  --accent:#86A2FF; --accent-ink:#0E131A; --accent-soft:#1C2742; --hl:#E8C547; --hl-ink:#15130A;
+  --good:#4CC38A; --good-soft:#13291F; --bad:#F5867A; --bad-soft:#2E1614; --warn:#F0A95A; --warn-soft:#2C2013;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding:0 16px}
+[hidden]{display:none!important}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.shell{max-width:1040px;margin:0 auto;padding-block:48px 56px;display:grid;gap:48px;grid-template-columns:minmax(0,1.1fr) minmax(0,420px);align-items:center;min-height:100vh}
+@media (max-width:860px){.shell{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:28px 40px;min-height:0}}
+
+/* cover */
+.cover h1{font-size:clamp(34px,5.5vw,54px);font-weight:800;letter-spacing:-.02em;line-height:1.02;margin-top:10px}
+.cover p{color:var(--muted);max-width:46ch;margin:14px 0 0}
+.count{display:flex;align-items:baseline;gap:10px;margin-top:26px}
+.count b{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.count span{color:var(--muted);font-size:14px}
+.ribbon{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin-top:18px;max-width:440px}
+.ribbon i{font-style:normal;font-family:var(--mono);font-size:11px;text-align:center;padding:6px 0;border-radius:4px;background:var(--line-soft);color:var(--muted);font-variant-numeric:tabular-nums}
+.ribbon i.past{background:var(--accent-soft);color:var(--accent)}
+.ribbon i.now{background:var(--hl);color:var(--hl-ink);font-weight:500}
+.ribbon i.exam{grid-column:span 1;background:var(--ink);color:var(--bg)}
+.ribbon-cap{font-size:13px;color:var(--muted);margin-top:8px}
+ul.points{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:10px;font-size:15px}
+ul.points li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;align-items:start}
+ul.points svg{width:18px;height:18px;margin-top:3px;color:var(--good)}
+@media (max-width:860px){ul.points,.ribbon-cap{display:none}.count{margin-top:18px}}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px 24px 24px;box-shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06)}
+.card h2{font-size:22px;font-weight:800}
+.card .sub{color:var(--muted);font-size:15px;margin:6px 0 20px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--line-soft);border-radius:10px;padding:4px;margin-bottom:20px}
+.seg button{font:600 14px/1 var(--body);padding:10px 8px;border:0;border-radius:7px;background:transparent;color:var(--muted);cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(16,24,40,.08)}
+form{display:grid;gap:14px}
+label.f{display:grid;gap:6px;font-weight:600;font-size:14px}
+.inp{position:relative}
+input[type=email],input[type=password],input[type=text]{width:100%;font:400 16px/1.3 var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:11px 12px}
+input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.inp input{padding-right:64px}
+.peek{position:absolute;right:6px;top:50%;transform:translateY(-50%);font:600 13px/1 var(--body);color:var(--accent);background:none;border:0;padding:8px;cursor:pointer}
+.hint{font-weight:400;font-size:13px;color:var(--muted)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px}
+.link{font:600 14px/1 var(--body);color:var(--accent);background:none;border:0;padding:4px 0;cursor:pointer}
+.primary{font:700 15px/1 var(--body);padding:13px 16px;border-radius:9px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.primary:disabled{opacity:.6;cursor:progress}
+.or{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;color:var(--muted);font-size:13px;margin:18px 0}
+.or::before,.or::after{content:"";height:1px;background:var(--line)}
+.google{width:100%;display:flex;justify-content:center;align-items:center;gap:10px;font:600 15px/1 var(--body);padding:12px 16px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.google:hover{border-color:var(--accent)}
+.google svg{width:18px;height:18px}
+.msg{font-size:14px;padding:10px 12px;border-radius:9px;margin-bottom:14px}
+.msg.err{background:var(--bad-soft);color:var(--bad)}
+.msg.ok{background:var(--good-soft);color:var(--good)}
+.msg.info{background:var(--warn-soft);color:var(--ink)}
+.msg code{font-family:var(--mono);font-size:13px}
+.fine{font-size:13px;color:var(--muted);margin:18px 0 0;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <section class="cover" aria-label="About">
+    <div class="eyebrow">GATE 2027 · Paper code DA</div>
+    <h1>GATE DA 2027 Roadmap</h1>
+    <p>A 19-week plan across the full official syllabus, from Probability to AI, ending in past papers and mocks.</p>
+    <div class="count"><b id="days">130</b><span id="daysLabel">days to the first exam day, 6 Feb 2027</span></div>
+    <div class="ribbon" id="ribbon" aria-hidden="true"></div>
+    <div class="ribbon-cap" id="ribbonCap">Highlighted: the current week of the plan.</div>
+    <ul class="points">
+      <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Tick topics off week by week</span></li>
+      <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Progress syncs between your phone and laptop</span></li>
+      <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Key dates, marks per subject and free resources in one place</span></li>
+    </ul>
+  </section>
+
+  <section class="card" aria-labelledby="formTitle">
+    <div id="setupMsg" class="msg info" hidden></div>
+
+    <div id="authBox">
+      <h2 id="formTitle">Welcome back</h2>
+      <p class="sub" id="formSub">Sign in to see your roadmap and progress.</p>
+
+      <div class="seg" role="tablist" aria-label="Account" id="seg">
+        <button type="button" role="tab" id="tabIn" aria-selected="true">Sign in</button>
+        <button type="button" role="tab" id="tabUp" aria-selected="false">Create account</button>
+      </div>
+
+      <div id="msg" class="msg" role="alert" hidden></div>
+
+      <form id="mainForm" novalidate>
+        <label class="f" for="email">Email
+          <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@example.com">
+        </label>
+        <label class="f" for="password" id="pwLabel">Password
+          <span class="inp">
+            <input type="password" id="password" name="password" autocomplete="current-password" required minlength="8">
+            <button type="button" class="peek" id="peek" aria-controls="password" aria-pressed="false">Show</button>
+          </span>
+          <span class="hint" id="pwHint" hidden>At least 8 characters.</span>
+        </label>
+        <div class="row" id="forgotRow">
+          <span></span>
+          <button type="button" class="link" id="forgotBtn">Forgot password?</button>
+        </div>
+        <button type="submit" class="primary" id="submitBtn">Sign in</button>
+        <button type="button" class="link" id="backBtn" hidden>Back to sign in</button>
+      </form>
+
+      <div id="googleBox" hidden>
+        <div class="or">or</div>
+        <button type="button" class="google" id="googleBtn">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+          Continue with Google
+        </button>
+      </div>
+    </div>
+
+    <form id="newPwForm" novalidate hidden>
+      <h2>Set a new password</h2>
+      <p class="sub">Choose a new password for your account.</p>
+      <div id="newPwMsg" class="msg" role="alert" hidden></div>
+      <label class="f" for="newPassword">New password
+        <input type="password" id="newPassword" autocomplete="new-password" required minlength="8">
+        <span class="hint">At least 8 characters.</span>
+      </label>
+      <button type="submit" class="primary" id="newPwBtn">Save password</button>
+    </form>
+
+    <p class="fine">Your progress is private to your account.</p>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>
+(function(){
+  var START=new Date("2026-09-26T00:00:00+05:30").getTime();
+  var EXAM=new Date("2027-02-06T09:00:00+05:30").getTime();
+  var DAY=86400000;
+  var HOME=new URL("index.html",location.href).href;
+  var SELF=new URL("login.html?reset=1",location.href).href;
+
+  // ---------- cover: countdown and the 19-week ribbon ----------
+  (function cover(){
+    var now=Date.now(), d=Math.max(0,Math.ceil((EXAM-now)/DAY));
+    document.getElementById("days").textContent=d;
+    document.getElementById("daysLabel").textContent=(d===1?"day":"days")+" to the first exam day, 6 Feb 2027";
+    var cur=now<START?0:Math.min(19,Math.floor((now-START)/(7*DAY)));
+    var rb=document.getElementById("ribbon");
+    for(var i=0;i<20;i++){
+      var c=document.createElement("i");
+      c.textContent=i<19?"W"+(i+1):"Exam";
+      c.className=i===19?(cur===19?"now":"exam"):(i<cur?"past":(i===cur?"now":""));
+      rb.appendChild(c);
+    }
+  })();
+
+  // ---------- form state ----------
+  var sb=window.gdaAuth;
+  var mode="in"; // in | up | forgot
+  var els={
+    title:document.getElementById("formTitle"), sub:document.getElementById("formSub"),
+    seg:document.getElementById("seg"), tabIn:document.getElementById("tabIn"), tabUp:document.getElementById("tabUp"),
+    msg:document.getElementById("msg"), form:document.getElementById("mainForm"),
+    email:document.getElementById("email"), pw:document.getElementById("password"), pwLabel:document.getElementById("pwLabel"),
+    pwHint:document.getElementById("pwHint"), peek:document.getElementById("peek"),
+    forgotRow:document.getElementById("forgotRow"), forgotBtn:document.getElementById("forgotBtn"),
+    submit:document.getElementById("submitBtn"), back:document.getElementById("backBtn"),
+    googleBox:document.getElementById("googleBox"), googleBtn:document.getElementById("googleBtn"),
+    authBox:document.getElementById("authBox"), newPwForm:document.getElementById("newPwForm"),
+    newPw:document.getElementById("newPassword"), newPwBtn:document.getElementById("newPwBtn"), newPwMsg:document.getElementById("newPwMsg"),
+    setup:document.getElementById("setupMsg")
+  };
+
+  function show(el,kind,text){ el.className="msg "+kind; el.textContent=text; el.hidden=false; }
+  function hide(el){ el.hidden=true; }
+
+  function setMode(m){
+    mode=m; hide(els.msg);
+    var up=m==="up", forgot=m==="forgot";
+    els.tabIn.setAttribute("aria-selected",m==="in"?"true":"false");
+    els.tabUp.setAttribute("aria-selected",up?"true":"false");
+    els.seg.hidden=forgot;
+    els.pwLabel.hidden=forgot; els.pw.required=!forgot;
+    els.pwHint.hidden=!up;
+    els.pw.autocomplete=up?"new-password":"current-password";
+    els.forgotRow.hidden=m!=="in";
+    els.back.hidden=!forgot;
+    els.googleBox.hidden=forgot||!(window.GDA_CONFIG&&window.GDA_CONFIG.googleSignIn);
+    els.title.textContent=forgot?"Reset your password":(up?"Create your account":"Welcome back");
+    els.sub.textContent=forgot?"Enter your email and we'll send you a link to set a new password."
+      :(up?"Save your progress and pick it up on any device.":"Sign in to see your roadmap and progress.");
+    els.submit.textContent=forgot?"Send reset link":(up?"Create account":"Sign in");
+  }
+  els.tabIn.addEventListener("click",function(){setMode("in")});
+  els.tabUp.addEventListener("click",function(){setMode("up")});
+  els.forgotBtn.addEventListener("click",function(){setMode("forgot"); els.email.focus();});
+  els.back.addEventListener("click",function(){setMode("in")});
+  els.peek.addEventListener("click",function(){
+    var showing=els.pw.type==="text"; els.pw.type=showing?"password":"text";
+    els.peek.textContent=showing?"Show":"Hide"; els.peek.setAttribute("aria-pressed",showing?"false":"true");
+  });
+
+  function friendly(err){
+    var m=(err&&err.message)||"";
+    if(/invalid login credentials/i.test(m)) return "That email and password don't match. Try again, or reset your password.";
+    if(/email not confirmed/i.test(m)) return "Confirm your email first. Open the link we sent to your inbox, then sign in.";
+    if(/already registered|already been registered|user already exists/i.test(m)) return "An account with this email already exists. Sign in instead.";
+    if(/rate limit|too many/i.test(m)) return "Too many attempts. Wait a minute, then try again.";
+    if(/password/i.test(m)&&/(short|at least|weak)/i.test(m)) return "Choose a longer password: at least 8 characters.";
+    if(/fetch|network/i.test(m)) return "Couldn't reach the sign-in service. Check your connection and try again.";
+    return m||"Something went wrong. Try again.";
+  }
+  function busy(on){ els.submit.disabled=on; els.googleBtn.disabled=on; }
+
+  // ---------- setup problems ----------
+  if(!sb){
+    els.authBox.querySelectorAll("input,button").forEach(function(b){b.disabled=true});
+    show(els.setup,"info",window.gdaAuthProblem==="lib"
+      ?"Couldn't load the sign-in service. Check your internet connection and reload the page."
+      :"Sign-in isn't set up yet. Add your Supabase URL and publishable key to config.js, then redeploy.");
+    setMode("in");
+    return;
+  }
+
+  // ---------- recovery link and existing session ----------
+  var isRecovery=/[?&]reset=1/.test(location.search)||/type=recovery/.test(location.hash);
+  function showNewPassword(){ els.authBox.hidden=true; els.newPwForm.hidden=false; els.newPw.focus(); }
+  sb.auth.onAuthStateChange(function(ev){ if(ev==="PASSWORD_RECOVERY"){ isRecovery=true; showNewPassword(); } });
+  sb.auth.getSession().then(function(r){
+    var session=r&&r.data&&r.data.session;
+    if(session&&isRecovery) showNewPassword();
+    else if(session) location.replace(HOME);
+  });
+
+  setMode("in");
+
+  // ---------- submit ----------
+  els.form.addEventListener("submit",function(e){
+    e.preventDefault(); hide(els.msg);
+    var email=els.email.value.trim(), pw=els.pw.value;
+    if(!/^\S+@\S+\.\S+$/.test(email)){ show(els.msg,"err","Enter a valid email address."); els.email.focus(); return; }
+    if(mode!=="forgot"&&pw.length<8){ show(els.msg,"err","Your password needs at least 8 characters."); els.pw.focus(); return; }
+    busy(true);
+    var p;
+    if(mode==="in"){
+      p=sb.auth.signInWithPassword({email:email,password:pw}).then(function(res){
+        if(res.error) throw res.error;
+        location.replace(HOME);
+      });
+    } else if(mode==="up"){
+      p=sb.auth.signUp({email:email,password:pw,options:{emailRedirectTo:HOME}}).then(function(res){
+        if(res.error) throw res.error;
+        if(res.data&&res.data.session){ location.replace(HOME); return; }
+        setMode("in"); els.email.value=email; els.pw.value="";
+        show(els.msg,"ok","Check your inbox at "+email+". Open the confirmation link, then sign in here.");
+      });
+    } else {
+      p=sb.auth.resetPasswordForEmail(email,{redirectTo:SELF}).then(function(res){
+        if(res.error) throw res.error;
+        show(els.msg,"ok","If an account exists for "+email+", a reset link is on its way. Check your inbox.");
+      });
+    }
+    p.catch(function(err){ show(els.msg,"err",friendly(err)); }).then(function(){ busy(false); });
+  });
+
+  els.googleBtn.addEventListener("click",function(){
+    hide(els.msg); busy(true);
+    sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:HOME}}).then(function(res){
+      if(res.error){ show(els.msg,"err",friendly(res.error)); busy(false); }
+    });
+  });
+
+  els.newPwForm.addEventListener("submit",function(e){
+    e.preventDefault(); hide(els.newPwMsg);
+    var pw=els.newPw.value;
+    if(pw.length<8){ show(els.newPwMsg,"err","Your password needs at least 8 characters."); return; }
+    els.newPwBtn.disabled=true;
+    sb.auth.updateUser({password:pw}).then(function(res){
+      if(res.error) throw res.error;
+      show(els.newPwMsg,"ok","Password saved. Taking you to your roadmap…");
+      setTimeout(function(){ location.replace(HOME); },900);
+    }).catch(function(err){ show(els.newPwMsg,"err",friendly(err)); els.newPwBtn.disabled=false; });
+  });
+})();
+</script>
+</body>
+</html>

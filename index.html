@@ -137,11 +137,17 @@ input:checked~.txt{color:var(--muted);text-decoration:line-through;text-decorati
 footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-<style>html{color-scheme:light}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<style>html{color-scheme:light}body{margin:0}[hidden]{display:none!important}img{max-width:100%}
+html.auth-pending body{visibility:hidden}
+.acct{display:flex;justify-content:flex-end;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:16px;font-size:14px;color:var(--muted)}
+.acct .who{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+</style>
+<script>document.documentElement.classList.add("auth-pending");</script>
 </head>
 <body>
 
 <div class="wrap">
+  <div class="acct"><span>Signed in as <span class="who" id="acctEmail"></span></span><button class="btn" id="signOutBtn" type="button">Sign out</button></div>
   <header class="top">
     <div>
       <div class="eyebrow">GATE 2027 · Paper code DA · Organised by IIT Madras</div>
@@ -263,6 +269,9 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-si
   <footer>Syllabus follows the official GATE 2027 DA syllabus, which is unchanged from 2026. Dates are from gate2027.iitm.ac.in and can change, so check the official site.</footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
 <script>
 (function(){
   var SECTIONS=[
@@ -311,7 +320,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-si
   var state={done:{}};
   function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-  try{var saved=JSON.parse(lsGet(LS_KEY)||"null"); if(saved&&typeof saved==="object") state.done=saved;}catch(e){}
+  function lsJson(k){try{var v=JSON.parse(lsGet(k)||"null");return v&&typeof v==="object"?v:null}catch(e){return null}}
   var hideDone=lsGet(LS_HIDE)==="1";
 
   function currentWeek(){
@@ -423,27 +432,37 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-si
     });
   }
 
-  // ---------- persistence ----------
-  var docRef=null, writing=false, dirty=false, timer=null, canWrite=true;
+  // ---------- account & sync (Supabase) ----------
+  var sb=window.gdaAuth, user=null, writing=false, dirty=false, timer=null;
   function setSync(kind,text){ var s=document.getElementById("sync"); s.className="sync "+kind; document.getElementById("syncText").textContent=text; }
-  setSync("","Progress is saved in this browser");
+  function userKey(){ return LS_KEY+":"+user.id; }
 
   function scheduleWrite(){
-    lsSet(LS_KEY,JSON.stringify(state.done));
-    if(!docRef||!canWrite) return;
+    if(!user) return;
+    lsSet(userKey(),JSON.stringify(state.done));
     dirty=true; clearTimeout(timer); timer=setTimeout(flush,700);
     setSync("","Saving…");
   }
   function flush(){
-    if(!docRef||!dirty) return;
+    if(!dirty||!user) return;
     if(writing){ clearTimeout(timer); timer=setTimeout(flush,400); return; }
     writing=true; dirty=false;
-    docRef.set({done:Object.assign({},state.done),updatedAt:new Date().toISOString()}).then(function(){
-      setSync("ok","Saved to your roadmap");
-    }).catch(function(e){
-      if(e&&e.code==="invalid_argument"){ canWrite=false; setSync("warn","Progress is saved in this browser"); }
-      else setSync("warn","Couldn't save online. Ticks are kept in this browser.");
-    }).then(function(){ writing=false; if(dirty) flush(); });
+    sb.from("progress").upsert({user_id:user.id,done:Object.assign({},state.done),updated_at:new Date().toISOString()})
+      .then(function(res){
+        if(res.error) setSync("warn","Couldn't save to your account. Ticks are kept in this browser.");
+        else setSync("ok","Saved to your account");
+      },function(){ setSync("warn","Couldn't save to your account. Ticks are kept in this browser."); })
+      .then(function(){ writing=false; if(dirty) flush(); });
+  }
+  function settled(){
+    return new Promise(function(done){
+      var n=0;
+      (function wait(){
+        if((!dirty&&!writing)||n++>40) return done();
+        if(dirty&&!writing){ clearTimeout(timer); flush(); }
+        setTimeout(wait,100);
+      })();
+    });
   }
 
   weeksEl.addEventListener("change",function(e){
@@ -452,30 +471,43 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-si
     refresh(); scheduleWrite();
   });
 
-  (function connect(){
-    if(!window.claude||typeof window.claude.use!=="function"){ setSync("","Progress is saved in this browser"); return; }
-    window.claude.use("db").then(function(db){
-      if(!db){ setSync("","Progress is saved in this browser"); return; }
-      docRef=db.doc("progress/main");
-      var first=true;
-      docRef.onSnapshot(function(snap){
-        if(snap.metadata&&snap.metadata.hasPendingWrites) return;
-        if(dirty||writing) return;
-        var data=snap.exists?snap.data():null;
-        if(data&&data.done&&typeof data.done==="object"){
-          state.done=Object.assign({},data.done);
-          lsSet(LS_KEY,JSON.stringify(state.done));
-          refresh();
-          setSync("ok","Saved to your roadmap");
-        } else if(first&&Object.keys(state.done).length){
-          scheduleWrite();
-        } else {
-          setSync("ok","Saved to your roadmap");
-        }
-        first=false;
-      },function(){ docRef=null; setSync("warn","Progress is saved in this browser"); });
-    }).catch(function(){ setSync("","Progress is saved in this browser"); });
-  })();
+  function loadRemote(){
+    setSync("","Loading your progress…");
+    sb.from("progress").select("done").eq("user_id",user.id).maybeSingle().then(function(res){
+      if(res.error){ setSync("warn","Couldn't load from your account. Showing ticks saved in this browser."); return; }
+      var remote=res.data&&res.data.done;
+      if(remote&&typeof remote==="object"){
+        if(!dirty&&!writing){ state.done=Object.assign({},remote); lsSet(userKey(),JSON.stringify(state.done)); refresh(); }
+        setSync("ok","Saved to your account");
+      } else if(Object.keys(state.done).length){
+        scheduleWrite(); // first sign-in: move ticks made in this browser into the account
+      } else {
+        setSync("ok","Saved to your account");
+      }
+    },function(){ setSync("warn","Couldn't load from your account. Showing ticks saved in this browser."); });
+  }
+
+  function toLogin(){ location.replace("login.html"); }
+  function boot(){
+    if(!sb){ toLogin(); return; }
+    sb.auth.onAuthStateChange(function(ev){ if(ev==="SIGNED_OUT") toLogin(); });
+    sb.auth.getSession().then(function(r){
+      var session=r&&r.data&&r.data.session;
+      if(!session){ toLogin(); return; }
+      user=session.user;
+      document.getElementById("acctEmail").textContent=user.email||"your account";
+      // Ticks cached for this account, else ones made in this browser before sign-in existed.
+      state.done=lsJson(userKey())||lsJson(LS_KEY)||{};
+      refresh();
+      document.documentElement.classList.remove("auth-pending");
+      loadRemote();
+    },toLogin);
+  }
+
+  document.getElementById("signOutBtn").addEventListener("click",function(){
+    var b=this; b.disabled=true; b.textContent="Signing out…";
+    settled().then(function(){ return sb.auth.signOut(); }).then(toLogin,toLogin);
+  });
 
   // ---------- controls ----------
   var hideBtn=document.getElementById("hideBtn");
@@ -493,7 +525,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-si
     state.done={}; refresh(); scheduleWrite(); resetMsg.hidden=true; resetBtn.hidden=false;
   });
 
-  build(); syncHide(); header(); refresh();
+  build(); syncHide(); header(); refresh(); boot();
 })();
 </script>
 
