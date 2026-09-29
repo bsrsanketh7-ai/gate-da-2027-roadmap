@@ -6,7 +6,7 @@
 //
 // NEVER put the service_role / secret key in this file.
 window.GDA_CONFIG = {
-  supabaseUrl: "YOUR_SUPABASE_URL",           // e.g. https://abcdefghijkl.supabase.co
-  supabaseKey: "YOUR_SUPABASE_PUBLISHABLE_KEY",
+  supabaseUrl: "https://wgoydcgwcildcglekoib.supabase.co",
+  supabaseKey: "sb_publishable_NRha5MQWhvGVUOPlc8okpA_6lBGZ71q",
   googleSignIn: false                         // set to true after enabling Google in Supabase
 };
